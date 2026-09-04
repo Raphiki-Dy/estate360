@@ -20,6 +20,7 @@ export default function AuditLog({ entries }: AuditLogProps) {
             <tr className="border-b border-slate-100 text-left text-xs uppercase tracking-wide text-slate-500">
               <th className="px-5 py-3 font-medium">Code</th>
               <th className="px-5 py-3 font-medium">Visitor</th>
+              <th className="px-5 py-3 font-medium">Vehicle</th>
               <th className="px-5 py-3 font-medium">Unit</th>
               <th className="px-5 py-3 font-medium">Resident</th>
               <th className="px-5 py-3 font-medium">Status</th>
@@ -30,7 +31,7 @@ export default function AuditLog({ entries }: AuditLogProps) {
           <tbody>
             {entries.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-6 text-center text-slate-400">
+                <td colSpan={8} className="px-5 py-6 text-center text-slate-400">
                   No gate activity yet.
                 </td>
               </tr>
@@ -41,6 +42,7 @@ export default function AuditLog({ entries }: AuditLogProps) {
                 <tr key={e.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
                   <td className="px-5 py-3 font-mono text-slate-700">{formatCodeForDisplay(e.code)}</td>
                   <td className="px-5 py-3 text-slate-900">{e.visitor_name}</td>
+                  <td className="px-5 py-3 font-mono text-xs text-slate-600">{e.vehicle_plate ?? "—"}</td>
                   <td className="px-5 py-3 text-slate-600">{e.units?.unit_number ?? "—"}</td>
                   <td className="px-5 py-3 text-slate-600">{e.profiles?.full_name ?? "—"}</td>
                   <td className="px-5 py-3">
