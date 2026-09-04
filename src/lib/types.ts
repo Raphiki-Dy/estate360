@@ -14,7 +14,7 @@ export interface Profile {
   phone: string | null;
   role: UserRole;
   unit_id: string | null;
-  rent_expiry_date: string | null; // ISO date
+  rent_expiry_date: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -24,6 +24,7 @@ export interface AccessCode {
   code: string;
   visitor_name: string;
   visitor_phone: string | null;
+  vehicle_plate: string | null;
   resident_id: string;
   unit_id: string;
   status: AccessCodeStatus;
@@ -41,7 +42,6 @@ export interface EmergencyAlert {
   resolved_at: string | null;
 }
 
-// Shape returned by the validate_access_code() RPC in schema.sql
 export interface ValidateCodeResult {
   result: "VALID" | "USED" | "EXPIRED" | "INVALID" | "REVOKED";
   visitor_name: string | null;
@@ -49,14 +49,13 @@ export interface ValidateCodeResult {
   unit_number: string | null;
   resident_name: string | null;
   expires_at: string | null;
+  vehicle_plate: string | null;
 }
 
-// Joined view used on the Admin occupant/rent table
 export interface OccupantRow extends Profile {
   units: Pick<Unit, "unit_number"> | null;
 }
 
-// Joined view used on the Security alert banner / admin audit log
 export interface AccessCodeWithUnit extends AccessCode {
   units: Pick<Unit, "unit_number"> | null;
   profiles: Pick<Profile, "full_name"> | null;
