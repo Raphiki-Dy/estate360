@@ -67,6 +67,7 @@ export default function CodesList({ residentId, initialCodes }: CodesListProps) 
                   <p className="text-sm font-medium text-slate-900">{c.visitor_name}</p>
                   <p className="font-mono text-xs text-slate-500">
                     {formatCodeForDisplay(c.code)} · expires {formatDateTime(c.expires_at)}
+                    {c.vehicle_plate && <> · {c.vehicle_plate}</>}
                   </p>
                 </div>
                 <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${style.bg} ${style.text}`}>
