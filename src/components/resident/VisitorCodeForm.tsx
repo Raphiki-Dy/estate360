@@ -29,6 +29,7 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
 
   const [visitorName, setVisitorName] = useState("");
   const [visitorPhone, setVisitorPhone] = useState("");
+  const [vehiclePlate, setVehiclePlate] = useState("");
   const [expirationHours, setExpirationHours] = useState(6);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +45,6 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
 
     let lastError: string | null = null;
 
-    // Codes are unique; on the rare collision, retry with a fresh code.
     for (let attempt = 0; attempt < MAX_INSERT_ATTEMPTS; attempt++) {
       const code = generateAccessCode(6);
 
@@ -52,6 +52,7 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
         code,
         visitor_name: visitorName,
         visitor_phone: visitorPhone || null,
+        vehicle_plate: vehiclePlate ? vehiclePlate.toUpperCase().trim() : null,
         resident_id: residentId,
         unit_id: unitId,
         status: "ACTIVE",
@@ -62,11 +63,11 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
         setGenerated({ code, visitorName, visitorPhone, expiresAt });
         setVisitorName("");
         setVisitorPhone("");
+        setVehiclePlate("");
         lastError = null;
         break;
       }
 
-      // 23505 = unique_violation -> retry; anything else -> stop and show it.
       if (insertError.code !== "23505") {
         lastError = insertError.message;
         break;
@@ -110,6 +111,19 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
               placeholder="+234 801 234 5678"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">
+            Vehicle license plate <span className="text-slate-400">(optional)</span>
+          </label>
+          <input
+            value={vehiclePlate}
+            onChange={(e) => setVehiclePlate(e.target.value)}
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm uppercase outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200 sm:w-48"
+            placeholder="ABC-123XY"
+            maxLength={15}
+          />
         </div>
 
         <div>
@@ -158,7 +172,7 @@ export default function VisitorCodeForm({ residentId, unitId, unitNumber }: Visi
               timeStyle: "short",
             })}
           </p>
-          <a
+          
             href={buildWhatsAppShareUrl({
               visitorName: generated.visitorName,
               code: generated.code,
