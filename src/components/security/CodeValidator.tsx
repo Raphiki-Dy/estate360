@@ -33,7 +33,7 @@ const RESULT_META: Record
     bg: "bg-blue-50",
     text: "text-blue-800",
     icon: Eye,
-    label: "STILL ACTIVE — NOT YET USED",
+    label: "STILL ACTIVE - NOT YET USED",
   },
   USED: {
     border: "border-amber-300",
@@ -183,7 +183,7 @@ export default function CodeValidator() {
           <p className={`text-xl font-bold ${meta.text}`}>{meta.label}</p>
           {lastMode === "lookup" && (
             <p className="mt-1 text-xs uppercase tracking-wide text-slate-400">
-              Status only — pass not consumed
+              Status only - pass not consumed
             </p>
           )}
 
